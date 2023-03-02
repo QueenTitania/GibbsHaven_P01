@@ -6,10 +6,14 @@ using UnityEngine.InputSystem;
 public class TouchManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private float gridScale = 10f;
+    //[SerializeField] private float gridScale = 10f;
     [SerializeField] private GameObject stonePrefab;
     [SerializeField] private GameObject goban;
-    [SerializeField] GameObject canvas;
+    [SerializeField] GameObject placedStones;
+    private GameObject[] gridSpaces;
+    public float gridDist;
+    public float nearestDist = 10000;
+    public GameObject nearestGrid;
 
     [SerializeField] float xMin = 0;
     [SerializeField] float xMax = 0;
@@ -25,6 +29,10 @@ public class TouchManager : MonoBehaviour
 
     private void Awake()
     {
+        gridSpaces = GameObject.FindGameObjectsWithTag("GridSpace");
+        nearestGrid = FindNearestGrid(player.transform.position);
+        //nearestDist = Vector2.Distance(player.transform.position, nearestGrid.transform.position);
+
         playerInput = GetComponent<PlayerInput>();
         touchPressAction = playerInput.actions.FindAction("TouchPress");
         touchPositionAction = playerInput.actions.FindAction("TouchPosition");
@@ -58,7 +66,10 @@ public class TouchManager : MonoBehaviour
     {
         while(true)
         {
-            player.transform.position = touchPositionAction.ReadValue<Vector2>();
+            Vector2 currentPos = touchPositionAction.ReadValue<Vector2>();
+            //Vector2 gridSnap = new Vector2(Mathf.Round(currentPos.x / gridScale) * gridScale, Mathf.Round(currentPos.y / gridScale) * gridScale);
+           // player.transform.position = currentPos;
+            player.transform.position = FindNearestGrid(currentPos).transform.position;
             yield return null;
         }
     }
@@ -72,17 +83,41 @@ public class TouchManager : MonoBehaviour
         {
             if(coroutine != null)
                 StopCoroutine(coroutine);
-            Vector2 gridSnap = new Vector2(Mathf.Round(currentPos.x / gridScale) * gridScale,
-                                         Mathf.Round(currentPos.y / gridScale) * gridScale);
-            GameObject instance = Instantiate(stonePrefab, canvas.transform);
-            instance.transform.position = gridSnap;
+            //Vector2 gridSnap = new Vector2(Mathf.Round(currentPos.x / gridScale) * gridScale, Mathf.Round(currentPos.y / gridScale) * gridScale);
+            //GameObject instance = Instantiate(stonePrefab, placedStones.transform);
+            player.transform.position = FindNearestGrid(currentPos).transform.position;
+            //PlacePlayer1Stone();
         }
 
-
-        player.SetActive(false);
+        
+        
         //Vector2 position = touchPositionAction.ReadValue<Vector2>();
         //player.transform.position = position;
     }
 
+
+    private GameObject FindNearestGrid(Vector2 currentPos)
+    {
+        nearestDist = 10000;
+        for(int i=0; i < gridSpaces.Length; i++)
+        {
+            gridDist = Vector2.Distance(currentPos, gridSpaces[i].transform.position);
+            //Debug.Log(nearestDist);
+
+            if(gridDist < nearestDist)
+            {
+                nearestDist = gridDist;
+                nearestGrid = gridSpaces[i];
+            }
+        }
+        return nearestGrid;
+    }
+
+    public void PlacePlayer1Stone()
+    {
+        GameObject instance = Instantiate(stonePrefab, placedStones.transform);
+        instance.transform.position = player.transform.position;
+        player.SetActive(false);
+    }
 
 }
