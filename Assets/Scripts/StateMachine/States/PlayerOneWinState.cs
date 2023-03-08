@@ -16,20 +16,22 @@ public class PlayerOneWinState : State
     public override void Enter()
     {
         Debug.Log("enter player 1 win state");
+        controller.player1winPanel.SetActive(true);
     }
 
     public override void Exit()
     {
         Debug.Log("exit player 1 win state");
+        controller.player1winPanel.SetActive(false);
     }
 
     public override void Tick()
     {
-        if (controller.Input.isTapPressed)
-        {
-            stateMachine.ChangeState(stateMachine.SetupState);
-            controller.Input.isTapPressed = false;
-        }
+        //if (controller.Input.isTapPressed)
+        //{
+        //    stateMachine.ChangeState(stateMachine.SetupState);
+        //    controller.Input.isTapPressed = false;
+        //}
 
     }
 }

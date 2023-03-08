@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InputBroadcaster : MonoBehaviour
 {
-    [SerializeField] PlayerInput playerInput;
+    PlayerInput playerInput;
 
     private InputAction testAction;
     private InputAction testWinLoseAction;
 
+
     public bool isTapPressed = false;
     public bool isWinPressed = false;
+    public bool isCountingPressed = false;
 
     private void Awake()
     {
@@ -22,6 +25,7 @@ public class InputBroadcaster : MonoBehaviour
 
     private void OnEnable()
     {
+
         testAction.performed += TestPressed;
         testAction.canceled += TestCancel;
 
@@ -38,6 +42,19 @@ public class InputBroadcaster : MonoBehaviour
         testWinLoseAction.canceled -= TestWinCancel;
     }
 
+
+    public void EndTurn()
+    {
+        isTapPressed = true;
+    }
+
+    public void EndGame()
+    {
+        isCountingPressed = true;
+    }
+
+
+
     private void TestPressed(InputAction.CallbackContext context)
     {
         isTapPressed = true;
@@ -51,11 +68,13 @@ public class InputBroadcaster : MonoBehaviour
     private void TestWinPressed(InputAction.CallbackContext context)
     {
         isWinPressed = true;
+
     }
 
     private void TestWinCancel(InputAction.CallbackContext context)
     {
         isWinPressed = false;
     }
+
 
 }

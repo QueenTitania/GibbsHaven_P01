@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTwoWinState : State
+public class DrawState : State
 {
     private GameController controller;
     private GameFSM stateMachine;
 
-    public PlayerTwoWinState(GameFSM passStateMachine, GameController passController)
+    public DrawState(GameFSM passStateMachine, GameController passController)
     {
         controller = passController;
         stateMachine = passStateMachine;
@@ -15,14 +15,14 @@ public class PlayerTwoWinState : State
 
     public override void Enter()
     {
-        Debug.Log("enter player 2 win state");
-        controller.player2winPanel.SetActive(true);
+        Debug.Log("enter draw state");
+        controller.drawPanel.SetActive(true);
     }
 
     public override void Exit()
     {
-        Debug.Log("exit player 2 win state");
-        controller.player2winPanel.SetActive(false);
+        Debug.Log("exit draw state");
+        controller.drawPanel.SetActive(false);
     }
 
     public override void Tick()

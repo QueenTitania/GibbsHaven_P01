@@ -4,5 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [field: SerializeField] public InputBroadcaster Input { get; private set; }
+    public InputBroadcaster Input { get; private set; }
+
+    [SerializeField] public GameObject player1winPanel;
+    [SerializeField] public GameObject player2winPanel;
+    [SerializeField] public GameObject drawPanel;
+
+    private void Awake()
+    {
+        Input = this.GetComponent<InputBroadcaster>();
+    }
 }

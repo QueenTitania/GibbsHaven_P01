@@ -6,20 +6,26 @@ public class PlayerOneState : State
 {
     private GameController controller;
     private GameFSM stateMachine;
+    private TouchManager touchManager;
+    
 
-    public PlayerOneState(GameFSM passStateMachine, GameController passController)
+    public PlayerOneState(GameFSM passStateMachine, GameController passController, TouchManager passTouch)
     {
         controller = passController;
         stateMachine = passStateMachine;
+        touchManager = passTouch;
     }
 
     public override void Enter()
     {
+        stateMachine.player1Panel.SetActive(true);
+        touchManager.player = touchManager.player1Cursor;
         Debug.Log("enter player 1 state");
     }
 
     public override void Exit()
     {
+        stateMachine.player1Panel.SetActive(false);
         Debug.Log("exit player 1 state");
     }
 
@@ -31,9 +37,9 @@ public class PlayerOneState : State
             controller.Input.isTapPressed = false;
         }
 
-        if (controller.Input.isWinPressed)
+        if (controller.Input.isCountingPressed)
         {
-            stateMachine.ChangeState(stateMachine.playerOneWinState);
+            stateMachine.ChangeState(stateMachine.countingState);
             controller.Input.isWinPressed = false;
         }
 
