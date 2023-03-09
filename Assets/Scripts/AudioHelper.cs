@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioHelper : MonoBehaviour
 {
-    public static AudioSource PlayClip2D(AudioClip clip, float volume)
+    public AudioSource PlayClip2D(AudioClip clip, float volume)
     {
         //create
         GameObject audioObject = new GameObject("Audio2D");
@@ -19,4 +19,10 @@ public class AudioHelper : MonoBehaviour
         return audioSource;
 
     }
+
+    public void PlayAudio(AudioClip clip)
+    {
+        PlayClip2D(clip, 1f);
+    }
+
 }

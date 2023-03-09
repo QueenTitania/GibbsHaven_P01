@@ -10,8 +10,15 @@ public class GameController : MonoBehaviour
     [SerializeField] public GameObject player2winPanel;
     [SerializeField] public GameObject drawPanel;
 
+
+
     private void Awake()
     {
         Input = this.GetComponent<InputBroadcaster>();
+    }
+
+    public void PlayAudio(AudioClip clip)
+    {
+        GetComponent<AudioHelper>().PlayClip2D(clip, 1f);
     }
 }
